@@ -1,9 +1,9 @@
-aws_stuff
+AWS Stuff
 =========
 
-General AWS scripts
+General AWS scripts to do stuff
 
-attach_volume.py - attach an EBS volume by tag info. Script will search for a volume with given name in it's AZ and attach it for you
+**attach_volume.py** - attach an EBS volume by tag info. Script will search for a volume with given name in it's AZ and attach it for you
 
 	usage: attach_volume.py [-h] [--tag TAG] --value VALUE --attach_as ATTACH_AS
 	
