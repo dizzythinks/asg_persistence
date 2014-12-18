@@ -9,8 +9,8 @@ import boto.utils
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Attach EBS Volume')
-    parser.add_argument('--tag', action='store', default='Name')
-    parser.add_argument('--value', action='store', required=True)
+    parser.add_argument('--tag', action='store', default='Name', help='Tag key, defaults to Name')
+    parser.add_argument('--value', action='store', required=True, help='The tag value to search for')
     parser.add_argument('--attach_as', action='store', required=True, help='device path e.g. /dev/xvdb')
     return parser.parse_args()
 
