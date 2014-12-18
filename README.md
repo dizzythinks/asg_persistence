@@ -11,8 +11,8 @@ attach_volume.py - attach an EBS volume by tag info. Script will search for a vo
 	
 	optional arguments:
 	  -h, --help            show this help message and exit
-	  --tag TAG
-	  --value VALUE
+	  --tag TAG             Tag key, defaults to Name
+	  --value VALUE         The tag value to search for
 	  --attach_as ATTACH_AS
 	                        device path e.g. /dev/xvdb
 	
