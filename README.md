@@ -1,7 +1,7 @@
-AWS Stuff
-=========
+ASG Persistence
+================
 
-General AWS scripts to do stuff
+Persisting things in Autoscaling Groups
 
 **attach_volume.py** - attach an EBS volume by tag info. Script will search for a volume with given name in it's AZ and attach it for you
 
