@@ -19,6 +19,8 @@ def parse_args():
                         help='device path e.g. /dev/xvdb')
     parser.add_argument('--skip_check', action='store', required=False,
                         help='skip the check and just continue')
+    parser.add_argument('--wait', action='store_true', required=False,
+                        help='If no available volume is found, wait.')
     return parser.parse_args()
 
 
@@ -57,8 +59,8 @@ def find(tag, val, client=None):
     c = client or boto3.client('ec2', region())
     try:
         for x in c.describe_volumes(Filters=[filters(tag, val)])['Volumes']:
-            if x['AvailabilityZone'] == zone() and x['State'] == 'available':
-                return x['VolumeId']
+            if x['AvailabilityZone'] == zone():
+                return x
     except Exception, e:
         print(e)
         sys.exit(2)
@@ -104,7 +106,15 @@ def main(args):
     already_attached(args)
 
     client = boto3.client('ec2', region())
-    attach(find(args.tag, args.value, client), args.attach_as, client)
+    volume_id = None
+    volume = find(args.tag, args.value, client)
+    if volume:
+        volume_id = volume['VolumeId']
+        if volume['State'] != 'available' and args.wait:
+            volume_waiter = client.get_waiter('volume_available')
+            volume_waiter.wait(VolumeIds=[volume_id])
+
+    attach(volume_id, args.attach_as, client)
 
     if not args.skip_check:
         counter = 0
