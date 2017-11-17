@@ -60,7 +60,8 @@ def find(tag, val, client=None):
     try:
         for x in c.describe_volumes(Filters=[filters(tag, val)])['Volumes']:
             if x['AvailabilityZone'] == zone():
-                return x
+                if x['State'] == 'available':
+                    return x
     except Exception, e:
         print(e)
         sys.exit(2)
